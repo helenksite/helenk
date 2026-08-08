@@ -4,8 +4,21 @@ import { MessageCircle, ChevronRight } from "lucide-react";
 import { COLOR, ProductRow } from "../shared";
 import { useStore } from "../store";
 
+// Imported images from src/assets
+import zoboImg from "../assets/zobo.jpg";
+import tigernutImg from "../assets/tigernut.jpg";
+import kunuImg from "../assets/kunu.jpg";
+import wrapperImg from "../assets/wrapper-green-floral.jpg";
+
 export default function Home() {
   const { WHATSAPP_NUMBER, featuredProducts, bestSellers, newArrivals, addToCart, whatsappOrderLink, wishlist, toggleWishlist } = useStore();
+
+  const COLLAGE = [
+    { img: zoboImg, label: "Zobo Drink", top: "0%", left: "8%", w: 150, rotate: -6 },
+    { img: tigernutImg, label: "Tigernut Drink", top: "6%", left: "56%", w: 140, rotate: 5 },
+    { img: wrapperImg, label: "Stylish Wrapper", top: "48%", left: "0%", w: 150, rotate: 4 },
+    { img: kunuImg, label: "Kunu Drink", top: "52%", left: "54%", w: 150, rotate: -4 },
+  ];
 
   return (
     <>
@@ -101,14 +114,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scrapbook-style image collage using icon placeholders */}
+          {/* Scrapbook-style image collage using real images from src/assets */}
           <div style={{ position: "relative", height: 340 }} className="hk-hero-collage">
-            {[
-              { icon: "🌺", label: "Zobo Drink", top: "0%", left: "8%", w: 150, rotate: -6 },
-              { icon: "🥐", label: "Special Buns", top: "6%", left: "56%", w: 140, rotate: 5 },
-              { icon: "👜", label: "Handbags", top: "48%", left: "0%", w: 150, rotate: 4 },
-              { icon: "💍", label: "Jewelry", top: "52%", left: "54%", w: 150, rotate: -4 },
-            ].map((c, idx) => (
+            {COLLAGE.map((c, idx) => (
               <div
                 key={idx}
                 style={{
@@ -121,23 +129,24 @@ export default function Home() {
                   border: `4px solid #fff`,
                   boxShadow: "0 10px 24px rgba(0,0,0,0.12)",
                   borderRadius: 6,
+                  overflow: "hidden",
                 }}
               >
                 <div
                   style={{
                     height: 120,
-                    background:
-                      idx % 2 === 0
-                        ? `linear-gradient(135deg, ${COLOR.green}, ${COLOR.greenDark})`
-                        : `linear-gradient(135deg, ${COLOR.red}, ${COLOR.redDark})`,
                     borderRadius: "2px 2px 0 0",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: 44,
+                    background: "#f6f6f6",
                   }}
                 >
-                  {c.icon}
+                  <img
+                    src={c.img}
+                    alt={c.label}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
                 </div>
                 <div style={{ padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 600, color: COLOR.ink }}>
                   {c.label}
@@ -163,7 +172,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
 
       {/* ---------------- HIGHLIGHTS: Featured / Best Sellers / New Arrivals ---------------- */}
       {(featuredProducts.length > 0 || bestSellers.length > 0 || newArrivals.length > 0) && (
@@ -200,7 +208,6 @@ export default function Home() {
           )}
         </section>
       )}
-
     </>
   );
 }
